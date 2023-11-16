@@ -12,65 +12,65 @@ pub struct Props {
 
 #[function_component]
 pub fn TimerControls(props: &Props) -> Html {
-    let take_break = {
-        let Props {
-            timer_state,
-            timer_duration,
-            session_length,
-        } = props.clone();
+    let Props {
+        timer_state,
+        timer_duration,
+        session_length,
+    } = props;
 
-        Callback::from(move |_: ()| {
+    let start_timer: Callback<()> = {
+        let timer_state = timer_state.clone();
+
+        Callback::from(move |_| {
+            timer_state.set(TimerState::Running);
+        })
+    };
+
+    let pause_timer: Callback<()> = {
+        let timer_state = timer_state.clone();
+
+        Callback::from(move |_| {
+            timer_state.set(TimerState::Paused);
+        })
+    };
+
+    let reset_timer: Callback<()> = {
+        let timer_state = timer_state.clone();
+        let timer_duration = timer_duration.clone();
+        let session_length = session_length.clone();
+
+        Callback::from(move |_| {
+            timer_state.set(TimerState::Paused);
+            timer_duration.set(0);
+            session_length.set(25 * 60); // Reset to 25 minute session time
+        })
+    };
+
+    let take_break: Callback<()> = {
+        let timer_state = timer_state.clone();
+        let timer_duration = timer_duration.clone();
+        let session_length = session_length.clone();
+
+        Callback::from(move |_| {
             timer_state.set(TimerState::Break);
             timer_duration.set(0);
-            session_length.set(5 * 60);
+            session_length.set(5 * 60); // 5 minute break time
         })
     };
 
-    let pause_timer = {
-        let timer_state = props.timer_state.clone();
+    let finish_break: Callback<()> = {
+        let timer_state = timer_state.clone();
+        let timer_duration = timer_duration.clone();
+        let session_length = session_length.clone();
 
-        Callback::from(move |_: ()| {
-            timer_state.set(TimerState::Paused);
-        })
-    };
-
-    let reset_timer = {
-        let Props {
-            timer_state,
-            timer_duration,
-            session_length,
-        } = props.clone();
-
-        Callback::from(move |_: ()| {
-            timer_state.set(TimerState::Paused);
-            timer_duration.set(0);
-            session_length.set(25 * 60);
-        })
-    };
-
-    let resume_timer = {
-        let timer_state = props.timer_state.clone();
-
-        Callback::from(move |_: ()| {
-            timer_state.set(TimerState::Running);
-        })
-    };
-
-    let start_session = {
-        let Props {
-            timer_state,
-            timer_duration,
-            session_length,
-        } = props.clone();
-
-        Callback::from(move |_: ()| {
+        Callback::from(move |_| {
             timer_state.set(TimerState::Running);
             timer_duration.set(0);
-            session_length.set(25 * 60);
+            session_length.set(25 * 60); // Reset state to 25 minutes
         })
     };
 
-    match *props.timer_state {
+    match **timer_state {
         TimerState::Running => {
             html!(
               <div class={classes!("flex", "flex-row", "space-x-2")}>
@@ -101,7 +101,7 @@ pub fn TimerControls(props: &Props) -> Html {
                   <Coffee />
                 </button>
                 <button class={classes!("p-3")} onclick={move |_| {
-                  resume_timer.emit(());
+                  start_timer.emit(());
                 }}>
                   <Play />
                 </button>
@@ -117,7 +117,7 @@ pub fn TimerControls(props: &Props) -> Html {
             html!(
               <div class={classes!("flex", "flex-row", "space-x-2")}>
                 <button class={classes!("p-3")} onclick={move |_| {
-                  start_session.emit(());
+                  finish_break.emit(());
                 }}>
                   <Play />
                 </button>

@@ -41,7 +41,7 @@ pub fn TimerDisplay(props: &Props) -> Html {
 
         // Decrease the session length by 5 minutes
         Callback::from(move |_: ()| {
-          session_length.set(*session_length - 60 * 5);
+            session_length.set(*session_length - 60 * 5);
         })
     };
 

@@ -5,11 +5,9 @@ use tauri::{AppHandle, Manager, SystemTray, SystemTrayEvent};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-async fn set_title(app_handle: AppHandle, title: String) {
-    let err = app_handle.tray_handle().set_title(&title);
-
-    if let Err(e) = err {
-        eprintln!("Error setting tray title: {}", e);
+async fn set_title(app_handle: tauri::AppHandle, title: String) {
+    if let Err(e) = app_handle.tray_handle().set_title(&title) {
+        eprintln!("error updating timer: {}", e);
     }
 }
 

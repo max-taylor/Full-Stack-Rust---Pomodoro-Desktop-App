@@ -7,7 +7,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "pomodoro",
+    "productName": "pomodoro-app",
     "version": "0.0.0"
   },
   "tauri": {
@@ -41,7 +41,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "pomodoro",
+        "title": "pomodoro-app",
         "width": 800,
         "height": 600
       }
