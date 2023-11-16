@@ -18,6 +18,7 @@ These instructions will get you a copy of the project up and running on your loc
 - Rust: [Installation Guide](https://www.rust-lang.org/tools/install)
 - Tauri: [Setup Instructions](https://tauri.app/v1/guides/getting-started/prerequisites)
 - Yarn: [Installation Guide](https://classic.yarnpkg.com/lang/en/docs/install/)
+- npx: [Installation Guide](https://www.npmjs.com/package/npx)
 
 ### Installation
 
@@ -31,6 +32,12 @@ These instructions will get you a copy of the project up and running on your loc
 
    ```bash
    cargo tauri dev
+   ```
+
+3. **Run the Tailwind Watcher service**
+
+   ```bash
+   npx tailwindcss -i ./src/input.css -o ./output.css --watch
    ```
 
 ## Usage
